@@ -95,7 +95,10 @@ module.exports = class SkypeBot {
 		    	console.log(response.result);
 				
 				if(response.result.action === "smalltalk.greetings.hello") {
-					session.send("Hello!!! I'm your Recipe Bot, you can ask me for different recipes, along with some Nutrition information and some info about the substitutes you can use in place of the specified ingredients.You can type 'help' if you need any assistance :)")
+					session.send("Hello!!! I'm your Recipe Bot, you can ask me for different recipes, along with some Nutrition
+					information and some info about the substitutes you can use in place of the specified ingredients.
+					You can type 'help' if you need any assistance, also you can type \"Recipe of the day\" to know the
+					best recipe of that day and can ask crazy questions to know it better :)")
 				} else if(response.result.action == "recipe.search"){
 					const ingredients = response.result.parameters.Ingredients;
 					if(ingredients && ingredients.length >0) {
@@ -138,6 +141,7 @@ module.exports = class SkypeBot {
 						}
 					})
 
+						
 				} else if(response.result.action === "substitute.ingredient") {
 					const ingredients = response.result.parameters.Ingredients;
 					if(ingredients && ingredients.length >0) {
