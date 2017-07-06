@@ -98,7 +98,7 @@ module.exports = class SkypeBot {
 					session.send("Hello!!! I'm your Recipe Bot, you can ask me for different recipes, along with some Nutrition " +
 					"information and some info about the substitutes you can use in place of the specified ingredients. " +
 					"You can type 'help' if you need any assistance, also you can type \"Recipe of the day\" to know the " +
-					"best recipe of that day and can ask crazy questions to know it better :)")
+					"best recipe of that day and can ask crazy questions to know it better :smile:")
 				} else if(response.result.action == "recipe.search"){
 					const ingredients = response.result.parameters.Ingredients;
 					if(ingredients && ingredients.length >0) {
