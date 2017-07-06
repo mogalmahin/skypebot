@@ -1,4 +1,5 @@
 var axios = require('axios');
+var qs = require('querystring');
 
 var SA = {};
 
@@ -63,5 +64,30 @@ SA.getAnswer = function getAnswer(query){
 		}})
 		.then(function(d) {return d.data})
 }
+SA.getRandomRecipe = function getRandomRecipe(query){
+	var params = {limitLicense: false, number : 1}
+	return axios({
+		method : "GET", 
+		url: "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/random", 
+		params: params,
+		headers: {
+			"X-Mashape-Key" : process.env.SPOONACULAR_TOKEN,
+		}})
+		.then(function(d) {console.log(d.data); return d.data}).catch(e => console.log(e))
+}
+
+SA.getCuisine = function getCuisine(dish){
+	var data = qs.stringify({title : dish})
+	return axios({
+		method : "POST", 
+		url: "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/cuisine", 
+		data: data,
+		headers: {
+			"X-Mashape-Key" : process.env.SPOONACULAR_TOKEN,
+			"Content-Type" : "application/x-www-form-urlencoded"
+		}})
+		.then(function(d) {console.log(d.data); return d.data}).catch(e => console.log(e))
+}
+
 
 module.exports = SA;

@@ -92,6 +92,7 @@ module.exports = class SkypeBot {
                 if (this._botConfig.devConfig) {
                     console.log(sender, "Received api.ai response");
                 }
+		    	console.log(response.result);
 				
 				if(response.result.action === "smalltalk.greetings.hello") {
 					session.send("Hello!!! I'm your Recipe Bot, you can ask me for different recipes, along with some Nutrition information and some info about the substitutes you can use in place of the specified ingredients.You can type 'help' if you need any assistance :)")
@@ -114,6 +115,29 @@ module.exports = class SkypeBot {
 						session.send("Unable to find out any ingredients");
 						session.endDialog();
 					}
+				} else if(response.result.action === "recipe.random") {
+						foodApi.getRandomRecipe().then(d => {
+							const recipes = d.recipes;	
+							if(recipes.length >0) {
+								this._userdishMap[sender] = this._userdishMap[sender] ? this._userdishMap[sender].concat(recipes) : recipes;
+								this.respondWithCarousel(session, recipes)
+							} else {
+								session.send("Cannot find a random recipe");
+							}
+							session.endDialog();
+
+						})
+						.catch(e => this.respondError(session))
+				} else if(response.result.action === "dish.cuisine") {
+					const dish = response.result.parameters.dish;
+					foodApi.getCuisine(dish).then(d => {
+						if(d.cuisine) {
+							session.send(dish + " is from " + d.cuisine + " cuisine");
+						} else {
+							session.send("It might be from alien cuisine"); 
+						}
+					})
+
 				} else if(response.result.action === "substitute.ingredient") {
 					const ingredients = response.result.parameters.Ingredients;
 					if(ingredients && ingredients.length >0) {
